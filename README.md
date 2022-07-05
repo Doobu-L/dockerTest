@@ -16,6 +16,8 @@ dockerhub에서는 서비스의 거시적인 관점에서의 관리를 유용하
 ### 여기에서는
 SpringBoot + MariaDB 를 docker-compose로  docker에 구동시켰다.
 
+## 우선 Dockerfile을 통해 이미지 생성과 도커에 이미지를 구동
+
 1. 기본적인 요청(GET hello)만 있는 서비스를 만들었다.
 2. docker for window 인 docker desktop을 설치했다.
    작업은 terminel에서 cli로 했다.
@@ -39,3 +41,39 @@ SpringBoot + MariaDB 를 docker-compose로  docker에 구동시켰다.
 
 7. docker ps
    도커프로세서 확인.
+
+## docker-compose
+
+docker pull mariadb
+docker container run -d -p 3306:3306 -e MARIADB_ROOT_PASSWORD=<Password> --name <Image이름> mariadb
+
+1. +++DB 연동하고 Hibernate DDL - create (테스트를 위해 아주 꺠끗한 상태에서 테이블생성까지 가기위해)
+   기본 insert / select 처리할 수 있는 요청 만듬.
+2. root path에 docker-compose.yml (경로는 상관없고 테스트를위해 빠르게 생성함)
+![image](https://user-images.githubusercontent.com/60733417/177300699-e3baffef-8554-4e8c-acbb-e10379346737.png)
+
+- version : {docker-compose의 버전}      - docker-compose version 으로 확인
+- service : 
+   database : 
+     container_name: {구동 될 컨테이너명}
+     image: {구동 할 이미지파일명}
+     
+   application : 
+      ebvurinebt:
+         SPRING_DATASOURCE_URL: jdbc:mariadb://{container_name}:3306/{database_name}
+         ..
+         ..
+       depends_on:
+         -mariadb    <- mariadb 의존이 필요하다는 뜻. mariadb 후에 구동된다.
+
+3. docker-compose up 으로 구동 (docker-compose.yml 위치에서 cli)
+
+![image](https://user-images.githubusercontent.com/60733417/177303373-0c3bcfdb-0bfc-4df9-bf9c-d33badb7c7af.png)
+
+
+### Docker Desktop 
+![image](https://user-images.githubusercontent.com/60733417/177303654-c519a323-5437-4cc1-903f-ecfbbd8190e4.png)
+
+### docker-compose up -d    백그라운드 구동  , docker-compose down  서비스 종료
+![image](https://user-images.githubusercontent.com/60733417/177303993-eba45a97-49d5-404f-8d5a-d881590cad06.png)
+
