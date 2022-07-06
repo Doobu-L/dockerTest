@@ -77,3 +77,10 @@ docker container run -d -p 3306:3306 -e MARIADB_ROOT_PASSWORD=<Password> --name 
 ### docker-compose up -d    백그라운드 구동  , docker-compose down  서비스 종료
 ![image](https://user-images.githubusercontent.com/60733417/177303993-eba45a97-49d5-404f-8d5a-d881590cad06.png)
 
+
+### docker container -> localhost 접속
+-- host.docker.internal:{port}
+![image](https://user-images.githubusercontent.com/60733417/177450730-d5ba9c4e-3982-4574-96ba-e97409705f14.png)
+
+이런식으로 도커를 띄울 때 로컬DB를 바라보게 할 수 있다.
+
